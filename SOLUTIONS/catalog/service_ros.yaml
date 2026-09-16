@@ -1,0 +1,89 @@
+entity: service_ros
+label: Repair order
+feature: service
+grain: One row per repair order, unique on ro_number. Open ROs have no close_date.
+unique_key: [ro_number]
+
+binding:
+  table: service_ros
+  store_column: store_code
+  time_column: close_date
+  freshness: nightly; open ROs (254 as of 2026-09-05) have no close_date and are not in any closed-date window
+  notes: >
+    Three pay types (C customer pay, W warranty, I internal) with three different labor rates. Never
+    blend them into one rate unless the asker says "blended". Filtering on close_date drops open ROs;
+    filtering on open_date counts work not yet billed. Say which basis you used.
+
+facts:
+  ro_count:
+    label: Repair orders
+    expr: "COUNT(*)"
+    description: Repair orders in the window. One row is one RO, so COUNT(*) is correct here.
+  labor_sales:
+    label: Labor sales
+    expr: "SUM(labor_sales)"
+    description: Labor dollars.
+  parts_sales:
+    label: Parts sales
+    expr: "SUM(parts_sales)"
+    description: Parts dollars. Zero on 12.2% of ROs (labor-only tickets), which is real, not missing.
+  labor_hours:
+    label: Labor hours
+    expr: "SUM(labor_hours)"
+    description: Billed hours.
+  effective_labor_rate:
+    label: Effective labor rate
+    expr: "SUM(labor_sales) / NULLIF(SUM(labor_hours), 0)"
+    description: Labor dollars per billed hour. Group by pay_type or the figure is blended.
+  hours_per_ro:
+    label: Hours per RO
+    expr: "SUM(labor_hours) / NULLIF(COUNT(*), 0)"
+    description: Billed hours per repair order.
+  cp_ro_share:
+    label: Customer-pay RO share
+    expr: "COUNT(*) FILTER (WHERE pay_type = 'C') * 1.0 / NULLIF(COUNT(*), 0)"
+    description: Share of ROs that are customer pay.
+  open_ros:
+    label: Open ROs
+    expr: "COUNT(*) FILTER (WHERE close_date IS NULL)"
+    description: ROs with no close date. Only meaningful without a close_date filter.
+
+gotchas:
+  - name: pay_types_have_different_rates
+    rule: >
+      Customer pay collects $167.04 per hour, warranty $134.91, internal $95.00; blended is $150.65 and
+      is not a rate the shop charges anyone. Group by pay_type, or say "blended".
+    verified: 2026-09-16
+  - name: open_ros_have_no_close_date
+    rule: >
+      254 ROs are open as of 2026-09-05 (CR1 59, CR2 43, CR3 78, CR4 74). A close_date window excludes
+      them; an open_date window includes unbilled work. 20.1% of closed ROs closed on a later day than
+      they opened, so the two bases differ.
+    verified: 2026-09-16
+  - name: internal_recon_is_not_revenue
+    rule: >
+      9,470 ROs are internal_recon: the store reconditioning its own used units. They inflate RO count
+      and hours with no outside dollars. "Fixed ops standing" usually means customer pay plus warranty.
+    verified: 2026-09-16
+  - name: departed_advisors_own_ros
+    rule: >
+      Two advisors who have left still own ROs. Per-advisor rankings must join staff and label
+      active_to.
+    verified: 2026-09-16
+
+refusals:
+  - name: technician_proficiency
+    reason: No clocked hours in this feed, only billed hours. Flagged-over-clocked cannot be computed.
+  - name: parts_gross
+    reason: No parts cost in this feed, so parts gross and margin cannot be computed.
+  - name: appointments_and_shows
+    reason: Appointments live in the scheduler or CRM, not the DMS repair order.
+
+deny_columns: []
+
+example_questions:
+  - "What was our effective labor rate by pay type at Ridgeline Chevrolet last month?"
+  - "Hours per RO by store, last 30 days, customer pay only."
+  - "How many ROs are open right now by store?"
+  - "Warranty RO count by month for the last six months."
+  - "Which advisor at Ridgeline Ford wrote the most customer-pay ROs in August?"

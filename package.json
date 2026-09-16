@@ -1,0 +1,46 @@
+{
+  "name": "dealer-ask-starter",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Claude for Dealers advanced track: an internal assistant over DMS data with user rights, on Next.js, Neon Postgres, and the Claude API.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test --test-concurrency=1 $(find lib scripts app -name '*.test.ts' -print)",
+    "db:init": "tsx scripts/db-init.ts",
+    "db:load-pack": "tsx scripts/load-pack.ts",
+    "db:seed-admin": "tsx scripts/seed-admin.ts",
+    "smoke": "tsx scripts/smoke.ts",
+    "ask": "tsx scripts/ask-cli.ts",
+    "catalog:render": "tsx scripts/catalog-render.ts",
+    "verify": "npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.1",
+    "@neondatabase/serverless": "^1.0.2",
+    "bcryptjs": "^3.0.2",
+    "drizzle-orm": "^0.45.2",
+    "js-yaml": "^4.1.0",
+    "next": "16.3.0",
+    "next-auth": "^5.0.0-beta.32",
+    "otplib": "^12.0.1",
+    "qrcode": "^1.5.4",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.3.14",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.15.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "playwright-core": "^1.52.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

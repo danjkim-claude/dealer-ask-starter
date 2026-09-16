@@ -1,0 +1,43 @@
+# One entity = one table or view Claude may query. Copy this file to catalog/<entity>.yaml.
+# The SAME file renders into the model's prompt (catalog/render.py) and feeds the guard
+# (allowed table, store column, deny_columns), so what the model is told is what is enforced.
+
+entity: my_entity                 # snake_case id
+label: Human label (who reads it) # e.g. "Store day (GM scorecard)"
+feature: sales                    # which rights feature unlocks this entity: sales | service | leads | finance
+grain: >                          # ONE sentence answering "what is one row?" Write it before any fact.
+  One row per ...
+unique_key: [col_a, col_b]        # prove it in PROFILE.md: COUNT(*) == COUNT(DISTINCT ...)
+
+binding:
+  table: my_table                 # the ONLY table the guard will allow for this entity
+  store_column: store_code        # the column the guard requires in WHERE for store-scoped users
+  time_column: report_date        # the column AVAILABLE_START / AVAILABLE_END are computed from
+  freshness: nightly              # how stale can it be; say so honestly
+  notes: >                        # anything that changes how you query it
+    Rows are ...
+
+facts:                            # 5 to 8. Each expr is exact SQL over the columns. Pre-aggregated rows are SUMmed, never COUNT(*)ed.
+  units:
+    label: Units delivered
+    expr: "SUM(unit_count)"
+    description: Retail and lease units delivered in the period.
+  # money stored as text with commas MUST be cast in the expr:
+  # total_gross:
+  #   expr: "SUM(REPLACE(total_gross, ',', '')::numeric)"
+
+gotchas:                          # at least 2, each with a MEASURED effect (a number you queried)
+  - name: example_gotcha
+    rule: >
+      What goes wrong, and the number that proves it (e.g. "12% of rows carry a zero-padded key; join without LTRIM loses 411 of 3,300 leads").
+    verified: 2026-09-06
+
+refusals:                         # at least 1: a metric people will ask for that this table cannot honestly answer
+  - name: example_refusal
+    reason: >
+      Why not, with evidence (e.g. "no trade data in this feed, so trade-in rate cannot be computed").
+
+deny_columns: []                  # every column that could identify a person, or that must never be selected
+
+example_questions:                # 5 plain-English questions a GM would ask that this entity CAN answer
+  - "How many units did we deliver MTD?"

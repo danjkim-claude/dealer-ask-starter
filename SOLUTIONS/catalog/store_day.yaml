@@ -1,0 +1,91 @@
+entity: store_day
+label: Store day (GM scorecard)
+feature: sales
+grain: >
+  One row per rooftop per calendar day. Values are that day's increments, not month-to-date
+  running totals, so every metric is a SUM of a column, never a COUNT(*) of rows.
+unique_key: [store_code, report_date]
+
+binding:
+  table: store_day
+  store_column: store_code
+  time_column: report_date
+  freshness: nightly, after the DMS close; a store that has not posted has NO ROW for that day
+  notes: >
+    Sundays are present as zero rows (the store was closed). A MISSING day is different: it means
+    the store has not posted yet. Absent is not zero.
+
+facts:
+  units:
+    label: Units
+    expr: "SUM(unit_count)"
+    description: Retail and lease units delivered.
+  deals:
+    label: Deals
+    expr: "SUM(deal_count)"
+    description: Deals written. Differs from units only when a deal carries more than one unit.
+  new_units:
+    label: New units
+    expr: "SUM(new_units)"
+    description: New-vehicle units.
+  used_units:
+    label: Used units
+    expr: "SUM(used_units)"
+    description: Used-vehicle units.
+  front_gross:
+    label: Front gross
+    expr: "SUM(front_gross)"
+    description: Gross on the vehicle before F&I. This is the GM-facing sales gross.
+  fi_gross:
+    label: F&I gross
+    expr: "SUM(fi_gross)"
+    description: Finance and insurance gross (back end).
+  total_gross:
+    label: Total gross
+    expr: "SUM(REPLACE(total_gross, ',', '')::numeric)"
+    description: Front plus F&I gross. Stored as TEXT with thousands separators; the cast is mandatory.
+  pvr:
+    label: PVR
+    expr: "SUM(fi_gross) / NULLIF(SUM(unit_count), 0)"
+    description: F&I gross per vehicle retailed.
+  gross_per_unit:
+    label: Gross per unit
+    expr: "SUM(REPLACE(total_gross, ',', '')::numeric) / NULLIF(SUM(unit_count), 0)"
+    description: Total gross divided by units.
+
+gotchas:
+  - name: total_gross_is_text
+    rule: >
+      total_gross is a text column with thousands separators ("28,571.41"). Summing it without the
+      cast fails or, in engines that coerce, drops everything after the comma. 100% of nonzero rows
+      carry a comma. Always REPLACE(total_gross, ',', '')::numeric.
+    verified: 2026-09-06
+  - name: missing_day_is_not_zero
+    rule: >
+      A store with no row for a day has not posted; it did not do zero. In the synthetic set CR2 has
+      no rows after 2026-09-02 (367 rows vs 370 for CR1, CR3 and CR4). Any "last N days" total must
+      report AVAILABLE_START/END per store and say "did not report" for missing stores.
+    verified: 2026-09-06
+  - name: sundays_are_zero_rows
+    rule: >
+      Sundays are real rows with 0 units (the store was closed). Dividing by calendar days
+      understates units per selling day; count rows with unit_count > 0 or exclude Sundays.
+    verified: 2026-09-06
+
+refusals:
+  - name: split_deals
+    reason: >
+      There is no salesperson grain in this table, so split-deal share and per-rep units cannot be
+      computed from it. Ask for the salesperson-day entity if you need them.
+  - name: trade_in_rate
+    reason: This feed carries no trade fields. Trade-in rate cannot be computed here.
+
+deny_columns: []
+
+example_questions:
+  - "How many units did Ridgeline Kia deliver month to date?"
+  - "Units per selling day by store, last 30 days."
+  - "What is PVR at each store for the last 30 days?"
+  - "Total gross for the group, last 7 days, by store."
+  - "New versus used mix by store this month."
+  - "Which store has the highest gross per unit over the last 60 days?"

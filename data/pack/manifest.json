@@ -1,0 +1,25 @@
+{
+  "pack": "Ridgeline Auto Group mock DMS data pack",
+  "version": "2.0-dms",
+  "as_of": "2026-09-05",
+  "start": "2025-09-01",
+  "seed": 2026,
+  "scope": "DMS only: deals, F&I, service, inventory, accounting, employees. No CRM, BDC, or ad-platform data.",
+  "stores": [
+    "CR1",
+    "CR2",
+    "CR3",
+    "CR4"
+  ],
+  "tables": {
+    "stores": 4,
+    "staff": 87,
+    "sales_deals": 10244,
+    "store_day": 1477,
+    "service_ros": 46674,
+    "service_day": 1480,
+    "inventory_snapshot": 79958,
+    "gl_monthly": 572
+  },
+  "pii": "none: no names, phones, emails, addresses, VINs, or payment amounts; staff display names are fictional"
+}

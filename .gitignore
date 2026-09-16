@@ -1,0 +1,10 @@
+node_modules
+.next
+.env
+.env.local
+.env*.local
+.vercel
+*.log
+data/PROFILE.md.bak
+.pglite
+NOTES.local.md

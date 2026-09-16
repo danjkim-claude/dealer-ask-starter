@@ -1,0 +1,75 @@
+# EXAMPLE for shape only. It describes service_day, a table you are not asked to catalog in the session.
+# Every number in YOUR catalog must come from YOUR PROFILE.md, not from here.
+entity: service_day
+label: Service day (fixed ops standing)
+feature: service
+grain: >
+  One row per rooftop per report date, pre-aggregated: that day's repair orders, sales and hours.
+  Sundays are absent (shop closed). Every metric is a SUM of a column, never a COUNT(*) of rows.
+unique_key: [store_code, report_date]
+
+binding:
+  table: service_day
+  store_column: store_code
+  time_column: report_date
+  freshness: nightly after the DMS close
+  notes: >
+    labor_sales, parts_sales and hours are already summed per day. Pay types (cp, warranty, internal)
+    are dollar splits of labor_sales and must never be blended into one rate.
+
+facts:
+  ro_count:
+    label: Repair orders
+    expr: "SUM(ro_count)"
+    description: Repair orders closed.
+  labor_sales:
+    label: Labor sales
+    expr: "SUM(labor_sales)"
+    description: Labor dollars across all pay types.
+  parts_sales:
+    label: Parts sales
+    expr: "SUM(parts_sales)"
+    description: Parts dollars.
+  labor_hours:
+    label: Labor hours
+    expr: "SUM(labor_hours)"
+    description: Billed hours.
+  effective_labor_rate:
+    label: Effective labor rate
+    expr: "SUM(labor_sales) / NULLIF(SUM(labor_hours), 0)"
+    description: Labor dollars collected per billed hour, all pay types blended. Ask for the CP-only rate separately.
+  hours_per_ro:
+    label: Hours per RO
+    expr: "SUM(labor_hours) / NULLIF(SUM(ro_count), 0)"
+    description: Billed hours per repair order.
+  cp_mix:
+    label: Customer-pay mix
+    expr: "SUM(cp_labor_sales) / NULLIF(SUM(labor_sales), 0)"
+    description: Share of labor dollars that are customer pay.
+
+gotchas:
+  - name: blended_elr_hides_pay_type
+    rule: >
+      effective_labor_rate blends customer-pay, warranty and internal. Warranty labor is roughly a quarter of labor_sales in this set, and it is billed at the factory rate, so the blended
+      figure is not what the shop charges a customer. Say "blended" when you report it.
+    verified: 2026-09-06
+  - name: no_sunday_rows
+    rule: >
+      Sundays are absent, not zero: about 6 of every 7 calendar days have a row per store. Days-based
+      averages must divide by rows with ro_count > 0, not by calendar days.
+    verified: 2026-09-06
+
+refusals:
+  - name: technician_proficiency
+    reason: No clocked hours in this feed, only billed hours. Flagged-over-actual cannot be computed.
+  - name: parts_gross
+    reason: Parts cost is not in this feed, so parts gross and parts margin cannot be computed.
+
+deny_columns: []
+
+example_questions:
+  - "What was our effective labor rate by store last month?"
+  - "Hours per RO at Ridgeline Ford, last 30 days."
+  - "Customer-pay mix by store this week."
+  - "How many repair orders did the group close in August?"
+  - "Labor and parts sales by store, month to date."

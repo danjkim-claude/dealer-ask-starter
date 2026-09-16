@@ -1,0 +1,54 @@
+# EXAMPLE for shape only. It describes inventory_snapshot, a table you are not asked to catalog in the session.
+# Every number in YOUR catalog must come from YOUR PROFILE.md, not from here.
+entity: inventory_snapshot
+label: Inventory (weekly snapshot)
+feature: sales
+grain: One row per unit in stock per weekly snapshot (Mondays), unique on (snapshot_date, stock_number).
+unique_key: [snapshot_date, stock_number]
+
+binding:
+  table: inventory_snapshot
+  store_column: store_code
+  time_column: snapshot_date
+  freshness: weekly; the latest snapshot is 2026-08-31, five days before the as-of date
+  notes: >
+    Every question uses ONE snapshot. Summing across snapshots counts the same unit up to 53 times.
+    "Current inventory" means WHERE snapshot_date = (SELECT MAX(snapshot_date) FROM inventory_snapshot).
+
+facts:
+  units:
+    label: Units in stock
+    expr: "COUNT(*)"
+    description: Units on the chosen snapshot.
+  aged_60_plus:
+    label: Aged 60+
+    expr: "COUNT(*) FILTER (WHERE days_in_stock >= 60)"
+    description: Units 60 days or older on the chosen snapshot.
+  inventory_cost:
+    label: Inventory cost
+    expr: "SUM(cost)"
+    description: Dollars on the ground at cost.
+  avg_days_in_stock:
+    label: Average days in stock
+    expr: "AVG(days_in_stock)"
+    description: Mean age of units on the snapshot.
+
+gotchas:
+  - name: one_snapshot_only
+    rule: 53 snapshots exist; any total without a snapshot_date filter is 53 times too big.
+    verified: 2026-09-16
+  - name: fast_turns_missing
+    rule: >
+      477 units sold in sales_deals never appear in a snapshot because they arrived and sold between
+      Mondays. Age computed from snapshots is slightly overstated.
+    verified: 2026-09-16
+
+refusals:
+  - name: market_price_comparison
+    reason: No market data in this feed.
+
+deny_columns: []
+
+example_questions:
+  - "How many units over 60 days do we have by store?"
+  - "What is our used days supply?"
