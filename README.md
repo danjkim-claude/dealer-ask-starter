@@ -17,7 +17,7 @@ The button copies this repository into your GitHub, creates the Vercel project, 
 ```bash
 git clone https://github.com/<you>/dealer-ask && cd dealer-ask
 npm install
-cp .env.example .env.local         # then paste the five values from Vercel → Project → Settings → Environment Variables
+npm run setup                      # a terminal wizard asks for the five settings and writes .env.local; typing is masked, nothing is printed
 npm run check:env                  # five names, each "set"; never prints a value
 git pull                           # "Already up to date." proves git and your GitHub sign-in work
 claude                             # answer Yes to 'trust this folder', then paste PROMPTS/01-setup-and-first-deploy.md (it runs the rest)
@@ -35,8 +35,9 @@ claude                             # answer Yes to 'trust this folder', then pas
 | `lib/ask/guard.ts` | The guard that reads generated SQL and refuses what a person may not see | **you, in the rights block** |
 | `catalog/` | One YAML per table the assistant may answer from | **you, in the ask block** |
 | `lib/ask/ask.ts` | The loop: plan, guard, run, narrate, verify, repair once, fall back | shipped |
-| `app/` | Sign-in, dashboard, ask box, Users page | shipped; you add a tile |
-| `PROMPTS/` | The prompts you paste into Claude Code, one per block | shipped |
+| `app/` | Sign-in, dashboard, ask box, Users page | shipped; you add four report pages |
+| `PROMPTS/` | The prompts you paste into Claude Code, one per block; `01b` paints the site in your group's colours | shipped |
+| `DESIGN.md` | The page rules Claude follows: brand tokens, meaning colours, layout, covered dates | shipped |
 | `SOLUTIONS/` | The answer key: a finished guard and two finished catalogs. Do not open until the block ends | shipped |
 
 ## Sign-in

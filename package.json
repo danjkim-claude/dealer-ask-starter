@@ -5,6 +5,7 @@
   "description": "Claude for Dealers advanced track: an internal assistant over DMS data with user rights, on Next.js, Neon Postgres, and the Claude API.",
   "scripts": {
     "dev": "next dev",
+    "setup": "tsx scripts/setup-env.ts",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",

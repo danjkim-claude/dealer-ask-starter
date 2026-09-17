@@ -1,6 +1,6 @@
 # 01 · Setup and first deploy (run while the rights concept is covered)
 
-You already did the one-click deploy and copied the five settings into `.env.local`. This prompt proves the whole road
+You already did the one-click deploy and ran `npm run setup` to write `.env.local`. This prompt proves the whole road
 works end to end: your laptop, the database, the model, GitHub, and the live site. It also profiles the table you will
 teach the assistant about.
 

@@ -8,6 +8,7 @@
       "Write",
       "Glob",
       "Grep",
+      "WebFetch",
       "Bash(npm test)",
       "Bash(npm test:*)",
       "Bash(npm run:*)",

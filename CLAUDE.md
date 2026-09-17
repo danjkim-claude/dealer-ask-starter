@@ -12,6 +12,8 @@ They paste one prompt from `PROMPTS/`, walk away, and come back to a checkpoint.
 - Never edit anything under `SOLUTIONS/`. It is the answer key.
 - Push with `git push origin main`. Vercel deploys every push to main; there is no separate deploy step.
 - Speak plainly in your summaries: what changed, which test proved it, what the person should look at next.
+- Read `DESIGN.md` before adding or changing any page. Brand colours come from the person's website (prompt 01b); meaning colours never change.
+- If the person's own `~/.claude/CLAUDE.md` says something this file does not cover, follow it. Where the two disagree about this folder, this file wins.
 
 ## The data
 - Read `docs/README.md`, then `docs/02-data-sources-and-grains.md` and `docs/05-question-patterns.md` before writing any query.
@@ -37,6 +39,6 @@ They paste one prompt from `PROMPTS/`, walk away, and come back to a checkpoint.
 - `catalog/*.yaml` is the machine-enforced description of a table; `docs/` is the human-and-model context.
 
 ## Commands
-`npm run check:env` · `npm run db:init` · `npm run db:load-pack` · `npm run db:seed-admin` · `npm run users -- list|add|code` · `npm run audit -- 20` ·
+`npm run setup` (terminal wizard, writes `.env.local`; a person runs it, never Claude) · `npm run check:env` · `npm run db:init` · `npm run db:load-pack` · `npm run db:seed-admin` · `npm run users -- list|add|code` · `npm run audit -- 20` ·
 `npm run ask -- --user <email> "question" [--mock] [--lie]` · `npm run catalog:render [file]` · `npm run smoke` ·
 `npm run dev` · `npm run build` · `npm test` · `npm run verify`
