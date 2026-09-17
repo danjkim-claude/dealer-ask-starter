@@ -9,7 +9,7 @@ teach the assistant about.
 ```
 Read CLAUDE.md and README.md. Then, in this order, without asking me anything:
 
-1. Confirm .env.local exists and that DATABASE_URL, ANTHROPIC_API_KEY, AUTH_SECRET, BOOTSTRAP_ADMIN and BOOTSTRAP_PASSWORD are all set. Never print a value. You cannot read that file; use the check script. If any value is blank, stop and tell me which name to fill in.
+1. Run npm run check:env. It prints each of the five settings as set or blank, never a value (you cannot read .env.local, and must not try). If any is blank, stop and tell me which name to fill in. If all five are set, continue; a placeholder value is my problem, not yours.
 2. Run npm install, then npm run db:init, npm run db:load-pack, npm run db:seed-admin. Show me the read-only proof line and the row counts against the manifest.
 3. Run npm run smoke and show me the one line it prints.
 4. Run npm test. Three files are red on purpose until the rights block, because the guard is still a skeleton: lib/ask/guard.test.ts, lib/ask/ask.test.ts and lib/dashboard/q.test.ts. Every other test must pass. Tell me the pass and fail counts and confirm only those three files failed.
@@ -22,4 +22,4 @@ Read CLAUDE.md and README.md. Then, in this order, without asking me anything:
 
 - The smoke line says `claude-opus-5 ok` with token counts.
 - `data/PROFILE.md` exists, names the unique key, and mentions that one store stops early and that a money column is text.
-- The live site shows the sign-in page. Sign in with your email and the first password; enroll your authenticator; you land on a dashboard with four stores and one amber flag.
+- The live site shows the sign-in page. Sign in with your email and the first password; enroll your authenticator; you land on a dashboard that says the guard is not written yet. The tiles arrive after prompt 02.

@@ -17,10 +17,10 @@ The button copies this repository into your GitHub, creates the Vercel project, 
 ```bash
 git clone https://github.com/<you>/dealer-ask && cd dealer-ask
 npm install
-# copy the five values from Vercel → Project → Settings → Environment Variables into .env.local (see .env.example)
-npm run db:init && npm run db:load-pack && npm run db:seed-admin
-npm run smoke                      # one tiny model call: prints the model and token counts
-claude                             # answer Yes to 'trust this folder', then paste PROMPTS/01-setup-and-first-deploy.md
+cp .env.example .env.local         # then paste the five values from Vercel → Project → Settings → Environment Variables
+npm run check:env                  # five names, each "set"; never prints a value
+git pull                           # "Already up to date." proves git and your GitHub sign-in work
+claude                             # answer Yes to 'trust this folder', then paste PROMPTS/01-setup-and-first-deploy.md (it runs the rest)
 ```
 
 ## What is in the box

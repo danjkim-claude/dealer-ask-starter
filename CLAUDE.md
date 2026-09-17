@@ -37,6 +37,6 @@ They paste one prompt from `PROMPTS/`, walk away, and come back to a checkpoint.
 - `catalog/*.yaml` is the machine-enforced description of a table; `docs/` is the human-and-model context.
 
 ## Commands
-`npm run db:init` · `npm run db:load-pack` · `npm run db:seed-admin` · `npm run users -- list|add|code` ·
+`npm run check:env` · `npm run db:init` · `npm run db:load-pack` · `npm run db:seed-admin` · `npm run users -- list|add|code` · `npm run audit -- 20` ·
 `npm run ask -- --user <email> "question" [--mock] [--lie]` · `npm run catalog:render [file]` · `npm run smoke` ·
 `npm run dev` · `npm run build` · `npm test` · `npm run verify`

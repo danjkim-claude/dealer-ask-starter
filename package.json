@@ -16,6 +16,8 @@
     "ask": "tsx scripts/ask-cli.ts",
     "catalog:render": "tsx scripts/catalog-render.ts",
     "users": "tsx scripts/users.ts",
+    "check:env": "tsx scripts/check-env.ts",
+    "audit": "tsx scripts/audit-tail.ts",
     "verify": "npm run typecheck && npm test"
   },
   "dependencies": {
