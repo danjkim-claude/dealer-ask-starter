@@ -7,15 +7,18 @@ Everything today happens inside this one folder. Your own Claude setup, if you h
    - Set the permission mode to **Auto**, so it does not stop and ask while you are away from the desk.
    - The folder brings its own `CLAUDE.md` and its own `.claude/settings.json`: the model, the rules, and the list of
      commands the prompts are allowed to run. They apply in this folder only.
-2. Open the prompt file for the block. The `PROMPTS` folder is in this folder; any text editor opens it, and so does
+2. **Say hello first, once.** Type `Read CLAUDE.md. In one line: what is this project, and what date does it treat as
+   today?` and press Enter. It should answer that today is 2026-09-05. That date proves it read the rules file inside
+   this folder, so you know you opened the right one. It also starts the session, which is what gives you a terminal.
+3. Open the prompt file for the block. The `PROMPTS` folder is in this folder; any text editor opens it, and so does
    the app. Copy everything under **Paste this**, paste it into the app as one message, and press Enter.
-3. Walk away. Each prompt is written to run without you: Claude will not ask questions, will run the tests, and will
+4. Walk away. Each prompt is written to run without you: Claude will not ask questions, will run the tests, and will
    stop at the checkpoint. Come back when the concept slides end.
-4. Read the last message Claude wrote. It names what changed, which test proved it, and what to look at.
-5. **Publish it.** Claude does not run git; you do this yourself and it takes two clicks. Open GitHub Desktop: the
+5. Read the last message Claude wrote. It names what changed, which test proved it, and what to look at.
+6. **Publish it.** Claude does not run git; you do this yourself and it takes two clicks. Open GitHub Desktop: the
    files Claude changed are listed on the left. Type the commit message Claude gave you, click **Commit to main**, then
    click **Push origin**. About a minute later your live site has rebuilt with the change.
-6. Do the **Check** at the bottom of the prompt file. Green sticky note on your laptop if it matches, red if not.
+7. Do the **Check** at the bottom of the prompt file. Green sticky note on your laptop if it matches, red if not.
 
 If something goes wrong, paste the error back into the same conversation with the words "fix this and rerun the tests".
 That is the whole engineering loop: build, test, fix, until green.
