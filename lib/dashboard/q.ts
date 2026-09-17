@@ -9,10 +9,13 @@ import { BINDINGS, type BindingKey } from "./bindings";
 import { asOf } from "@/lib/ask/ask";
 
 export class GuardRefused extends Error {}
+/** Thrown while lib/ask/guard.ts is still the skeleton (before prompt 02). The dashboard shows a notice instead of failing. */
+export class GuardNotReady extends Error {}
 
 export async function q(scope: Scope, table: BindingKey, sql: string): Promise<Row[]> {
   const cat = BINDINGS[table];
-  const g = validate(sql, scope, cat);
+  let g: ReturnType<typeof validate>;
+  try { g = validate(sql, scope, cat); } catch (e) { if (e instanceof Error && e.message.startsWith("NotImplemented")) throw new GuardNotReady(e.message); throw e; }
   if (!g.ok) throw new GuardRefused(g.reason);
   return (await db()).readOnly(g.sql);
 }
