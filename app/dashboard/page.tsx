@@ -1,7 +1,7 @@
 import { requireScope } from "@/lib/auth/require";
 import { can } from "@/lib/auth/can";
 import { salesMtd, serviceLast30 } from "@/lib/dashboard/tiles";
-import { today } from "@/lib/dashboard/q";
+import { today, GuardNotReady } from "@/lib/dashboard/q";
 import Bars from "@/components/Bars";
 
 const money = (v: number) => "$" + Math.round(v).toLocaleString("en-US");
@@ -10,8 +10,10 @@ const money = (v: number) => "$" + Math.round(v).toLocaleString("en-US");
 export default async function Dashboard() {
   const scope = await requireScope();
   const t = today();
-  const sales = can(scope, "sales") ? await salesMtd(scope) : null;
-  const service = can(scope, "service") ? await serviceLast30(scope) : null;
+  let notReady = false;
+  const load = async <T,>(f: () => Promise<T>): Promise<T | null> => { try { return await f(); } catch (e) { if (e instanceof GuardNotReady) { notReady = true; return null; } throw e; } };
+  const sales = can(scope, "sales") ? await load(() => salesMtd(scope)) : null;
+  const service = can(scope, "service") ? await load(() => serviceLast30(scope)) : null;
   const units = sales?.reduce((s, r) => s + r.units, 0) ?? 0;
   const gross = sales?.reduce((s, r) => s + r.total_gross, 0) ?? 0;
   const late = sales?.filter((r) => r.late) ?? [];
@@ -19,6 +21,7 @@ export default async function Dashboard() {
     <>
       <h1>{scope.allStores ? "Ridgeline Auto Group" : sales?.map((r) => r.name).join(", ") || scope.stores.join(", ")}</h1>
       <p className="lede">Month to date through {t}. {scope.allStores ? "All stores." : `Your store${scope.stores.length > 1 ? "s" : ""}: ${scope.stores.join(", ")}.`}</p>
+      {notReady && <div className="flag"><b>The guard is not written yet.</b> Every tile runs through it, so the tiles wait. Prompt 02 writes the guard; when its tests pass, this page fills in.</div>}
       {late.map((r) => <div className="flag" key={r.store_code}><b>{r.name}</b> did not report after {r.available_end}. Its numbers below stop there; they are not zero.</div>)}
       {sales && (
         <>
@@ -42,7 +45,7 @@ export default async function Dashboard() {
           {service.length > 1 && <div className="card"><div className="label">ROs closed by store</div><Bars items={service.map((r) => ({ label: r.name, value: r.ros }))} /></div>}
         </>
       )}
-      {!sales && !service && <div className="denied">Your record has no reporting feature yet. Ask your administrator for sales or service.</div>}
+      {!sales && !service && !notReady && <div className="denied">Your record has no reporting feature yet. Ask your administrator for sales or service.</div>}
     </>
   );
 }
