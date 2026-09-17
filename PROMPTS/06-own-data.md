@@ -12,7 +12,7 @@ Read CLAUDE.md, lib/db/schema.sql and lib/db/load-pack.ts. I have an export at ~
 3. Write data/own/PROFILE.md from real read-only queries: row count, column types and null rates, min and max of every date column, distinct counts of low-cardinality columns, rows per store, and the unique key with proof.
 4. Write catalog/own.yaml the way catalog/store_day.yaml was written: grain, binding, 5 to 8 facts with exact expressions, gotchas with measured numbers, at least one refusal, deny_columns naming the dropped columns so the guard blocks them if a future export brings them back, five example questions.
 5. Add a binding for the new table to lib/dashboard/bindings.ts. Run npm run verify. Show me one npm run ask answer against the new catalog for a person who may see that store.
-6. Commit and push.
+6. Do not run any git command; tell me the commit message to use in GitHub Desktop and to click Commit then Push.
 ```
 
 ## A live warehouse (Snowflake, BigQuery, Postgres) with a read-only role
@@ -24,7 +24,7 @@ Read CLAUDE.md and lib/db/client.ts. I have a read-only connection to DESCRIBE_I
 2. Prove the credential is read-only: attempt a CREATE TABLE through the new runner and show me the permission error.
 3. Bind to the single view or table I name: VIEW_NAME. Write data/own/PROFILE.md from real queries with a LIMIT on anything that returns rows. Do not select any column that could identify a person; list them by name only.
 4. Write catalog/own.yaml for it, deny-listing those columns. Add the binding to lib/dashboard/bindings.ts. Run npm run verify and show me one npm run ask answer.
-5. Commit and push. Do not commit any environment file.
+5. Do not run any git command; tell me the commit message to use in GitHub Desktop and to click Commit then Push. Never stage an environment file.
 ```
 
 The production version of this is a Snowflake reporting mart read by a reader role, refreshed nightly, with the pages

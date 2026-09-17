@@ -26,7 +26,7 @@ Read data/PROFILE.md, catalog/TEMPLATE.yaml, one example in catalog/examples/ fo
    npm run ask -- --user gm.kia@ridgeline.example "What is our close rate on internet leads?"
 4. The planted lie: run npm run ask -- --lie --user controller@ridgeline.example "units by store last 7 days" and show me the first-pass issues the verifier found and whether it repaired or fell back to plain rows.
 5. Read the last eight rows of the ask_audit table with a small tsx script (actor, outcome, verify, sql) and print them as a table.
-6. Run npm run verify. Commit with the message "Catalog and ask loop" and push to origin main.
+6. Run npm run verify. Do not run any git command: this laptop may not have git, and publishing is done by hand in GitHub Desktop. Instead, finish by telling me in one line to open GitHub Desktop, type the commit message "Catalog and ask loop", click Commit to main, then click Push origin. Say that the live site rebuilds about a minute after that push.
 7. Finish with a five-line summary: the gotcha with the biggest number, which question was declined and why, and what the planted lie taught you.
 ```
 

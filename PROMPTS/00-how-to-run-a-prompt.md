@@ -12,7 +12,10 @@ Everything today happens inside this one folder. Your own Claude setup, if you h
 3. Walk away. Each prompt is written to run without you: Claude will not ask questions, will run the tests, and will
    stop at the checkpoint. Come back when the concept slides end.
 4. Read the last message Claude wrote. It names what changed, which test proved it, and what to look at.
-5. Do the **Check** at the bottom of the prompt file. Green sticky note on your laptop if it matches, red if not.
+5. **Publish it.** Claude does not run git; you do this yourself and it takes two clicks. Open GitHub Desktop: the
+   files Claude changed are listed on the left. Type the commit message Claude gave you, click **Commit to main**, then
+   click **Push origin**. About a minute later your live site has rebuilt with the change.
+6. Do the **Check** at the bottom of the prompt file. Green sticky note on your laptop if it matches, red if not.
 
 If something goes wrong, paste the error back into the same conversation with the words "fix this and rerun the tests".
 That is the whole engineering loop: build, test, fix, until green.
@@ -22,6 +25,8 @@ That is the whole engineering loop: build, test, fix, until green.
 - **The five settings.** `npm run setup` is a plain program you run yourself in the app's terminal (the Views menu, or
   Control and the backtick key). What you type goes straight into `.env.local`, which Claude is blocked from reading.
   Never type a key into the chat.
+- **Publishing.** Claude never runs a git command; this laptop may not have git at all, and it does not need it. You
+  commit and push in GitHub Desktop, which is also how you can see exactly what changed before it goes live.
 - **Your own Claude setup.** If you already use Claude Code, your personal instructions still load, exactly as always.
   This folder's rules sit beside yours and apply only here. Nothing is written to your global settings. If your own
   rules make Claude ask before running a command, allow it and it carries on.

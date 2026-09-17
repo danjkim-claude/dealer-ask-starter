@@ -17,7 +17,7 @@ Read DESIGN.md, app/dashboard/page.tsx, lib/dashboard/tiles.ts, lib/dashboard/q.
    - /reports/trend (feature sales): units per day this month next to the same day last month, by store, as a table with a cumulative column for each month, from store_day. Sundays are zero rows; keep them so the days line up.
 3. Add a "Reports" link for each page to components/Nav.tsx, shown only when can(scope, feature) is true for that page.
 4. Add lib/dashboard/reports.test.ts on the in-process database (copy the setup from lib/dashboard/q.test.ts) proving: the Kia GM's sales scorecard returns exactly one store, CR2; a scope with only the service feature is refused by the sales scorecard function before any SQL runs; the controller's scorecard returns four stores.
-5. Run npm run verify, then npm run build. Fix anything red. Commit with the message "Reports: sales, service, inventory, trend" and push to origin main.
+5. Run npm run verify, then npm run build. Fix anything red. Do not run any git command: this laptop may not have git, and publishing is done by hand in GitHub Desktop. Instead, finish by telling me in one line to open GitHub Desktop, type the commit message "Reports: sales, service, inventory, trend", click Commit to main, then click Push origin. Say that the live site rebuilds about a minute after that push.
 6. Finish with a five-line summary: Ridgeline Kia's units MTD and used days supply with the dates each one used, which page a service-only person can open, and the file and line where a page would be refused if it asked for the wrong store.
 ```
 
@@ -35,5 +35,5 @@ Read DESIGN.md, app/dashboard/page.tsx, lib/dashboard/tiles.ts, lib/dashboard/q.
 
 - Four Reports links for you and for gm.kia; one for service.east; `/reports/sales` sends service.east to the denied page.
 - The sales scorecard flags Ridgeline Kia as not reporting after 2026-09-02; the inventory page says the snapshot is 2026-08-31.
-- `npm run verify` is green and the site redeployed (the Reports links are live).
+- `npm run verify` is green, you published in GitHub Desktop, and the site redeployed (the Reports links are live).
 - One `rights_change` row names you as the actor and gm.hyundai as the target.

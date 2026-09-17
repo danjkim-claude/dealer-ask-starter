@@ -16,7 +16,7 @@ Read lib/rights/types.ts, lib/rights/scope.ts, scripts/users.ts, lib/ask/guard.t
    Run npm run users -- list and show it to me.
 2. Implement validate() in lib/ask/guard.ts so every test in lib/ask/guard.test.ts passes. Follow the rules in the file header exactly: scrub first (strip comments, empty string literals in one left-to-right pass keeping the literal values, reject any quoted identifier containing a quote, a semicolon, OR, or AND), then one statement, SELECT or WITH only with no write verbs, only the catalog table after FROM or JOIN, no denied column anywhere, no SELECT * or FN(*) except COUNT, a store filter that is a subset of the person's stores with no OR at the top level of WHERE, simple queries only for restricted people, and a LIMIT capped at 5000 appended on the comment-stripped text. No SQL parser library. Plain regular expressions on the scrubbed text. Run npm test and fix until green.
 3. Add three tests of your own to lib/ask/guard.test.ts, each named [REGRESSION GUARD] with a one-line comment on what it protects: a second store code hidden inside a quoted alias, a subquery from the GM that reaches another store, and a denied column reached through a function such as UPPER(). All three must be rejected. Run npm test again.
-4. Run npm run verify. Commit with the message "Rights: five people and a green guard" and push to origin main.
+4. Run npm run verify. Do not run any git command: this laptop may not have git, and publishing is done by hand in GitHub Desktop. Instead, finish by telling me in one line to open GitHub Desktop, type the commit message "Rights: five people and a green guard", click Commit to main, then click Push origin. Say that the live site rebuilds about a minute after that push.
 5. Finish with a five-line summary: how many tests pass, the three holes your own tests close, and one rejection reason a general manager could read aloud.
 ```
 
@@ -24,4 +24,4 @@ Read lib/rights/types.ts, lib/rights/scope.ts, scripts/users.ts, lib/ask/guard.t
 
 - `npm test` is green, including the three tests you wrote.
 - `npm run users -- list` shows six people. Your admin, the Kia GM, the regional, the service director, the controller, and one disabled.
-- Sign in on the live site as gm.kia (code from `npm run users -- code gm.kia@ridgeline.example`): one store, no Users link.
+- Publish it in GitHub Desktop, then sign in on the live site as gm.kia (code from `npm run users -- code gm.kia@ridgeline.example`): one store, no Users link.

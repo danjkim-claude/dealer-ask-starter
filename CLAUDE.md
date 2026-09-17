@@ -10,7 +10,7 @@ They paste one prompt from `PROMPTS/`, walk away, and come back to a checkpoint.
   so `lib/ask/guard.test.ts`, `lib/ask/ask.test.ts` and `lib/dashboard/q.test.ts` are red; nothing else may be.
 - Never print, paste, or commit a secret. `.env.local` holds the keys; you may check that a name is set, never show a value.
 - Never edit anything under `SOLUTIONS/`. It is the answer key.
-- Push with `git push origin main`. Vercel deploys every push to main; there is no separate deploy step.
+- **Never run a git command.** This laptop may not have git installed, and the person publishes by hand in GitHub Desktop: they type the commit message, click Commit to main, then Push origin. End a block by telling them the exact message to use. Vercel deploys every push to main; there is no separate deploy step.
 - Speak plainly in your summaries: what changed, which test proved it, what the person should look at next.
 - Read `DESIGN.md` before adding or changing any page. Brand colours come from the person's website (prompt 01b); meaning colours never change.
 - This project is self-contained: it lives in its own folder, and everything it needs is inside it. Never write to the person's global Claude configuration, their home directory, or any path outside this folder.

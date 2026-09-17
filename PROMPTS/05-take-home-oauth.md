@@ -18,7 +18,7 @@ Read auth.ts, lib/auth/require.ts, app/login/page.tsx and lib/rights/scope.ts. T
 2. Add an ALLOWED_EMAIL_DOMAINS environment variable (comma separated). In the signIn callback, refuse any provider login whose email domain is not on the list, and write one audit row for the refusal. Never let a provider login through when the list is empty.
 3. Show a "Sign in with PROVIDER" button on the login page only when the provider's variables are set.
 4. Add tests for the domain check in lib/auth/domains.test.ts: an allowed domain passes, a lookalike domain fails, an empty list fails closed.
-5. Run npm run verify and npm run build. Commit with the message "Sign-in: PROVIDER with allowed domains" and push to origin main.
+5. Run npm run verify and npm run build. Do not run any git command: this laptop may not have git, and publishing is done by hand in GitHub Desktop. Instead, finish by telling me in one line to open GitHub Desktop, type the commit message "Sign-in: PROVIDER with allowed domains", click Commit to main, then click Push origin. Say that the live site rebuilds about a minute after that push.
 6. Finish with a five-line summary: what a person from another company sees when they try, and what an approved person with no rights row sees.
 ```
 

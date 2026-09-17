@@ -24,9 +24,12 @@ npm run setup                      # asks for the five settings and writes .env.
 npm run check:env                  # five names, each "set"; never prints a value
 ```
 
-Then paste `PROMPTS/01-setup-and-first-deploy.md` into the app and walk away; it runs the rest. `npm` needs Node.js,
-which the Claude app does not bring: if `npm` is not found, install the LTS build from nodejs.org and try again.
-The CLI works too if you prefer it: `claude` in the folder, and answer Yes to "trust this folder".
+Then paste `PROMPTS/01-setup-and-first-deploy.md` into the app and walk away; it runs the rest. When it stops, publish
+the block yourself in GitHub Desktop: type the commit message it gives you, Commit to main, then Push origin. Vercel
+rebuilds about a minute later. Claude never runs a git command, so command-line git is not required on this machine.
+
+`npm` needs Node.js, which the Claude app does not bring: if `npm` is not found, install the LTS build from nodejs.org
+and try again.
 
 ## What is in the box
 
