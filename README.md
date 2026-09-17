@@ -12,16 +12,21 @@ Auto Group (four rooftops, thirteen months, no customer data), so every screen i
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdanjkim-claude%2Fdealer-ask-starter&project-name=dealer-ask&repository-name=dealer-ask&env=ANTHROPIC_API_KEY,AUTH_SECRET,BOOTSTRAP_ADMIN,BOOTSTRAP_PASSWORD&envDescription=Your%20Claude%20API%20key%2C%20a%20long%20random%20string%2C%20your%20email%2C%20and%20a%20first%20password.&stores=%5B%7B%22type%22%3A%22integration%22%2C%22integrationSlug%22%3A%22neon%22%2C%22productSlug%22%3A%22neon%22%2C%22protocol%22%3A%22storage%22%7D%5D)
 
 The button copies this repository into your GitHub, creates the Vercel project, attaches a Neon Postgres database
-(Vercel sets `DATABASE_URL`), and asks you for the four other settings. Then, on your laptop:
+(Vercel sets `DATABASE_URL`), and asks you for the four other settings.
+
+Then, on your laptop. No commands are needed to get the code: in **GitHub Desktop**, File, Clone repository, pick your
+new `dealer-ask`, and put it in a folder of its own. Open that folder in the **Claude app** (Code tab, Select folder,
+Local, permission mode Auto). Everything below runs in the app's own terminal (Views menu, or Control and backtick):
 
 ```bash
-git clone https://github.com/<you>/dealer-ask && cd dealer-ask
 npm install
-npm run setup                      # a terminal wizard asks for the five settings and writes .env.local; typing is masked, nothing is printed
+npm run setup                      # asks for the five settings and writes .env.local; typing is masked, nothing is printed
 npm run check:env                  # five names, each "set"; never prints a value
-git pull                           # "Already up to date." proves git and your GitHub sign-in work
-claude                             # answer Yes to 'trust this folder', then paste PROMPTS/01-setup-and-first-deploy.md (it runs the rest)
 ```
+
+Then paste `PROMPTS/01-setup-and-first-deploy.md` into the app and walk away; it runs the rest. `npm` needs Node.js,
+which the Claude app does not bring: if `npm` is not found, install the LTS build from nodejs.org and try again.
+The CLI works too if you prefer it: `claude` in the folder, and answer Yes to "trust this folder".
 
 ## What is in the box
 

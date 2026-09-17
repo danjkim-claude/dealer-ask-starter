@@ -13,7 +13,8 @@ They paste one prompt from `PROMPTS/`, walk away, and come back to a checkpoint.
 - Push with `git push origin main`. Vercel deploys every push to main; there is no separate deploy step.
 - Speak plainly in your summaries: what changed, which test proved it, what the person should look at next.
 - Read `DESIGN.md` before adding or changing any page. Brand colours come from the person's website (prompt 01b); meaning colours never change.
-- If the person's own `~/.claude/CLAUDE.md` says something this file does not cover, follow it. Where the two disagree about this folder, this file wins.
+- This project is self-contained: it lives in its own folder, and everything it needs is inside it. Never write to the person's global Claude configuration, their home directory, or any path outside this folder.
+- The person's own `~/.claude/CLAUDE.md` still loads alongside this file. Where the two disagree about this folder, this file wins; otherwise follow theirs.
 
 ## The data
 - Read `docs/README.md`, then `docs/02-data-sources-and-grains.md` and `docs/05-question-patterns.md` before writing any query.
