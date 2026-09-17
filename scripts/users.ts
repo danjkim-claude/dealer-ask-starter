@@ -2,7 +2,7 @@
  * Manage rights from the terminal (the Users page does the same thing in the browser).
  *   npm run users -- list
  *   npm run users -- add gm.kia@ridgeline.example --tier user --features sales,service --stores CR2 --home CR2 --password ridgeline
- *   (add --secret <base32> to pin a demo user's authenticator secret; --demo no to skip the pre-set secret)
+ *   (add --secret <base32> to pin a demo user's authenticator secret; --demo no to skip the pre-set secret; --demo alone means yes)
  *   npm run users -- code gm.kia@ridgeline.example        # print the current six-digit code for a demo user
  * Demo users get a pre-set authenticator secret so you can sign in as them without four phones. Your own account enrolls for real.
  */
@@ -13,7 +13,8 @@ import { hashPassword } from "@/lib/auth/password";
 import { currentCode, newSecret } from "@/lib/auth/totp";
 import type { Tier } from "@/lib/rights/types";
 
-function arg(name: string, def = ""): string { const i = process.argv.indexOf(`--${name}`); return i > 0 ? process.argv[i + 1] : def; }
+// --flag value; a bare --flag (no value, or followed by another flag) reads as "yes"
+function arg(name: string, def = ""): string { const i = process.argv.indexOf(`--${name}`); if (i < 0) return def; const v = process.argv[i + 1]; return v === undefined || v.startsWith("--") ? "yes" : v; }
 (async () => {
   await initSchema();
   const [cmd, email] = process.argv.slice(2).filter((a) => !a.startsWith("--") && !process.argv[process.argv.indexOf(a) - 1]?.startsWith("--"));
