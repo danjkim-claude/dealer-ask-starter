@@ -1,10 +1,10 @@
 # One entity = one table or view Claude may query. Copy this file to catalog/<entity>.yaml.
-# The SAME file renders into the model's prompt (catalog/render.py) and feeds the guard
+# The SAME file renders into the model's prompt (npm run catalog:render) and feeds the guard
 # (allowed table, store column, deny_columns), so what the model is told is what is enforced.
 
 entity: my_entity                 # snake_case id
 label: Human label (who reads it) # e.g. "Store day (GM scorecard)"
-feature: sales                    # which rights feature unlocks this entity: sales | service | leads | finance
+feature: sales                    # which rights feature unlocks this entity: sales | service | finance
 grain: >                          # ONE sentence answering "what is one row?" Write it before any fact.
   One row per ...
 unique_key: [col_a, col_b]        # prove it in PROFILE.md: COUNT(*) == COUNT(DISTINCT ...)
@@ -30,7 +30,7 @@ gotchas:                          # at least 2, each with a MEASURED effect (a n
   - name: example_gotcha
     rule: >
       What goes wrong, and the number that proves it (e.g. "12% of rows carry a zero-padded key; join without LTRIM loses 411 of 3,300 leads").
-    verified: 2026-09-06
+    verified: 2026-09-05
 
 refusals:                         # at least 1: a metric people will ask for that this table cannot honestly answer
   - name: example_refusal

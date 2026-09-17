@@ -13,7 +13,7 @@ A fictional four-rooftop dealer group with 13 months of internally consistent **
 ## Load it
 
 - **Postgres (Neon)**: the tables carry the CSV names; every query in this kit runs inside a READ ONLY transaction through `lib/db/client.ts`.
-- **SQLite**: `sqlite3 ridgeline.sqlite`. Columns are untyped text; cast money with `CAST(x AS REAL)`.
+- **SQLite**: the data pack download ships `ridgeline.sqlite`. Columns are untyped text; cast money with `CAST(x AS REAL)`.
 - **Google Sheets / Excel**: import any CSV. `service_ros` and `inventory_snapshot` are the large ones.
 - **BigQuery / Snowflake / Postgres**: load the CSVs with your usual loader. Dialect notes are in `05-question-patterns.md`.
 
@@ -35,4 +35,4 @@ The model is never the source of a number. Numbers come from rows returned by SQ
 
 ## Regenerate
 
-`python3 generate.py && python3 build.py` (Python 3.10+, `duckdb` package for the build step). Seed 2026, deterministic. `python3 validate_docs_sql.py` runs every SQL block in these docs against the built database.
+The generator scripts live in the data pack download (ridgeline-data-pack.zip), not in this kit: `python3 generate.py && python3 build.py`, seed 2026, deterministic. In the kit, `npx tsx scripts/check-docs-sql.ts` runs every SQL block in these docs against the loaded database.

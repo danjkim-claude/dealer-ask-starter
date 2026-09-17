@@ -15,6 +15,7 @@
     "smoke": "tsx scripts/smoke.ts",
     "ask": "tsx scripts/ask-cli.ts",
     "catalog:render": "tsx scripts/catalog-render.ts",
+    "users": "tsx scripts/users.ts",
     "verify": "npm run typecheck && npm test"
   },
   "dependencies": {

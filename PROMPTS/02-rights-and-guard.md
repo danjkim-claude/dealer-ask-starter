@@ -23,5 +23,5 @@ Read lib/rights/types.ts, lib/rights/scope.ts, scripts/users.ts, lib/ask/guard.t
 ## Check
 
 - `npm test` is green, including the three tests you wrote.
-- `npm run users -- list` shows six people. Your admin, the two GMs, the regional, the controller, and one disabled.
+- `npm run users -- list` shows six people. Your admin, the Kia GM, the regional, the service director, the controller, and one disabled.
 - Sign in on the live site as gm.kia (code from `npm run users -- code gm.kia@ridgeline.example`): one store, no Users link.

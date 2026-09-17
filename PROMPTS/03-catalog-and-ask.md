@@ -1,6 +1,6 @@
 # 03 · The catalog and the ask loop (run while the dashboard concept is covered)
 
-What the assistant is told about your table, in one file the guard also reads. Then six questions, three people, one planted lie.
+What the assistant is told about your table, in one file the guard also reads. Then six questions, four people, one planted lie.
 
 ## Paste this
 

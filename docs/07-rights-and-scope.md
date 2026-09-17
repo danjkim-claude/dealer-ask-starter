@@ -35,7 +35,6 @@ Rights are five separate things. A feature grant is not a store grant. A GM need
 users:
   owner@ridgeline.example:       {tier: admin, all_stores: true, features: [sales, service, finance]}
   gm.kia@ridgeline.example:      {tier: user, stores: [CR2], home_store: CR2, features: [sales, service]}
-  gm.ford@ridgeline.example:     {tier: user, stores: [CR3], home_store: CR3, features: [sales, service]}
   service.east@ridgeline.example: {tier: user, stores: [CR1, CR2], home_store: CR1, features: [service]}
   regional@ridgeline.example:    {tier: store_admin, stores: [CR3, CR4], home_store: CR3, features: [sales, service]}
   controller@ridgeline.example:  {tier: admin, all_stores: true, features: [finance, sales]}

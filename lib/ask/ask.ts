@@ -51,7 +51,7 @@ export interface AskOptions { mock?: boolean; lie?: boolean; catalogPath?: strin
 async function plan(client: Anthropic | null, system: string, question: string, mock: boolean): Promise<{ sql: string; reason: string; tokens: number | null }> {
   if (mock || !client) return mockPlan(question);
   const r = await client.messages.create({
-    model: MODEL, max_tokens: 2000,
+    model: MODEL, max_tokens: 4000,
     system: [{ type: "text", text: system, cache_control: { type: "ephemeral" } }],
     tools: [RUN_SQL_TOOL], tool_choice: { type: "tool", name: "run_sql" },
     messages: [{ role: "user", content: question }],
@@ -64,7 +64,7 @@ async function plan(client: Anthropic | null, system: string, question: string, 
 async function narrate(client: Anthropic | null, system: string, question: string, sql: string, rows: Row[], mock: boolean, lie?: string | null): Promise<string> {
   if (mock || !client) return mockNarrate(rows, lie);
   const user = `QUESTION: ${question}\n\nSQL THAT RAN:\n${sql}\n\nROWS (JSON):\n${JSON.stringify(rows).slice(0, 20000)}`;
-  const r = await client.messages.create({ model: MODEL, max_tokens: 1200, system, messages: [{ role: "user", content: user }] });
+  const r = await client.messages.create({ model: MODEL, max_tokens: 2000, system, messages: [{ role: "user", content: user }] });
   let text = r.content.filter((b): b is Anthropic.TextBlock => b.type === "text").map((b) => b.text).join("");
   if (lie) text += " " + lie;
   return text;

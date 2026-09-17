@@ -9,12 +9,12 @@ teach the assistant about.
 ```
 Read CLAUDE.md and README.md. Then, in this order, without asking me anything:
 
-1. Confirm .env.local exists and that DATABASE_URL, ANTHROPIC_API_KEY, AUTH_SECRET, BOOTSTRAP_ADMIN and BOOTSTRAP_PASSWORD are all set. Never print a value. If AUTH_SECRET is blank, generate one with openssl rand -base64 32 and write it in.
+1. Confirm .env.local exists and that DATABASE_URL, ANTHROPIC_API_KEY, AUTH_SECRET, BOOTSTRAP_ADMIN and BOOTSTRAP_PASSWORD are all set. Never print a value. You cannot read that file; use the check script. If any value is blank, stop and tell me which name to fill in.
 2. Run npm install, then npm run db:init, npm run db:load-pack, npm run db:seed-admin. Show me the read-only proof line and the row counts against the manifest.
 3. Run npm run smoke and show me the one line it prints.
 4. Run npm test. Three files are red on purpose until the rights block, because the guard is still a skeleton: lib/ask/guard.test.ts, lib/ask/ask.test.ts and lib/dashboard/q.test.ts. Every other test must pass. Tell me the pass and fail counts and confirm only those three files failed.
 5. Write data/PROFILE.md for the store_day table from real queries through a small tsx script that uses lib/db/client.ts readOnly(): row count, every column's type and null rate, min and max of report_date, rows per store with each store's last report date, distinct values of any low-cardinality column, and the unique key with proof (count vs count distinct). Do not read docs/06-gotchas-and-refusals.md; I want the profile to find things on its own. End the profile with two one-line answers in your own words: "What is one row in this table?" and "How fresh is this data?"
-6. Commit everything except .env.local with the message "Setup: pack loaded, profile written" and push to origin main. Tell me the Vercel URL from the README or the git remote so I can open it.
+6. Commit everything except .env.local with the message "Setup: pack loaded, profile written" and push to origin main. Then remind me to open my Vercel URL from the Deploy checkpoint and sign in.
 7. Finish with a five-line summary: what runs where, what the profile found that surprised you, and what I should click first on the live site.
 ```
 

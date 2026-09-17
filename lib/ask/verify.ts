@@ -109,7 +109,9 @@ export function coverage(prose: string, rows: Row[], scope: Scope, storeNames: R
 export function bannedWords(prose: string, catalog: Pick<Catalog, "binding">): string[] {
   const low = prose.toLowerCase(); const issues: string[] = [];
   for (const w of BANNED) if (low.includes(w)) issues.push(`Do not use the word '${w.trim()}' in a GM-facing answer.`);
-  for (const col of [...Object.values(catalog.binding), catalog.binding.table]) if (typeof col === "string" && col.includes("_") && new RegExp(`\\b${col}\\b`).test(prose)) issues.push(`Do not show the column or table name '${col}'; use its dealer label.`);
+  const b = catalog.binding as Record<string, unknown>;
+  const idents = [b.table, b.store_column, b.time_column].filter((c): c is string => typeof c === "string" && c.includes("_"));
+  for (const col of idents) if (new RegExp(`\\b${col.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`).test(prose)) issues.push(`Do not show the column or table name '${col}'; use its dealer label.`);
   return issues;
 }
 

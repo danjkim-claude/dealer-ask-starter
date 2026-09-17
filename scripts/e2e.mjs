@@ -4,7 +4,7 @@ import { authenticator } from "otplib";
 import { mkdirSync } from "node:fs";
 const [base, out] = [process.argv[2] || "http://localhost:3005", process.argv[3] || "e2e-shots"];
 mkdirSync(out, { recursive: true });
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--no-sandbox"] });
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? "/opt/pw-browsers/chromium", args: ["--no-sandbox"] });
 const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 const shot = (n) => page.screenshot({ path: `${out}/${n}.png`, fullPage: true });
 page.on("console", (m) => { if (m.type() === "error") console.log("[browser]", m.text().slice(0, 200)); });
