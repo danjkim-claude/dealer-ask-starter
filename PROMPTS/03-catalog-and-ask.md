@@ -19,7 +19,7 @@ Read data/PROFILE.md, catalog/TEMPLATE.yaml, one example in catalog/examples/ fo
    npm run ask -- --user gm.kia@ridgeline.example "How many units did we deliver in the last 30 days?"
    npm run ask -- --user controller@ridgeline.example "Total gross last 7 days across all stores"
    npm run ask -- --user gm.kia@ridgeline.example "Total gross last 7 days across all stores"
-   The third must answer for Kia only and say so in one sentence without lecturing about permissions.
+   With a real key the third must answer for Kia only and say so in one sentence without lecturing about permissions. On the mock planner (ASK_MOCK=1) the mock deliberately asks for all four stores and the guard refuses it; that refusal is the correct result, not a failure. Tell me which of the two you got.
 3. Now three that should not be answered normally. Each must be a one-sentence plain-English decline, and none may contain a number:
    npm run ask -- --user service.east@ridgeline.example "What was total gross last month?"
    npm run ask -- --user former@ridgeline.example "How many units MTD?"
@@ -32,7 +32,8 @@ Read data/PROFILE.md, catalog/TEMPLATE.yaml, one example in catalog/examples/ fo
 
 ## Check
 
-- The controller's seven-day answer names Kia's last date (2026-09-02) and says it did not report after that, not that it did zero.
+- The controller's seven-day answer names Kia's covered dates, ending 2026-09-02, rather than showing Kia as a zero. With a real key it should also say in words that Kia did not report after that date.
+- The Kia GM's "all stores" question either answers for Kia only (real key) or is refused by the guard naming CR1, CR3 and CR4 (mock). Either one is a pass.
 - Three declines with no numbers in them.
 - The planted lie shows at least one first-pass issue and a verify status of repaired or fallback.
 - On the live site, the Ask page answers the first question for gm.kia and shows the SQL under "How this was computed".

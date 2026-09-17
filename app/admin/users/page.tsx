@@ -39,9 +39,9 @@ export default async function UsersPage() {
       </form>
       <h2>Last rights changes</h2>
       <table>
-        <thead><tr><th>When</th><th>Who</th><th>Whom</th><th>After</th></tr></thead>
-        <tbody>{audit.map((a) => { const e = a.entry as { target: string; after: Record<string, unknown> }; return (
-          <tr key={a.id}><td>{new Date(a.ts as unknown as string).toISOString().slice(0, 16).replace("T", " ")}</td><td>{a.actor}</td><td>{e.target}</td><td><code>{JSON.stringify(e.after)}</code></td></tr>
+        <thead><tr><th>When</th><th>Who</th><th>Whom</th><th>Before</th><th>After</th></tr></thead>
+        <tbody>{audit.map((a) => { const e = a.entry as { target: string; before: Record<string, unknown> | null; after: Record<string, unknown> }; return (
+          <tr key={a.id}><td>{new Date(a.ts as unknown as string).toISOString().slice(0, 16).replace("T", " ")}</td><td>{a.actor}</td><td>{e.target}</td><td>{e.before ? <code>{JSON.stringify(e.before)}</code> : <span className="pill">new person</span>}</td><td><code>{JSON.stringify(e.after)}</code></td></tr>
         ); })}</tbody>
       </table>
     </>

@@ -27,7 +27,7 @@ test("the owner gets four stores with covered dates, and Kia's early stop is nam
   assert.equal(r.outcome, "answered"); if (r.outcome !== "answered") return;
   assert.equal(r.rows.length, 4); assert.equal(r.verify, "passed"); assert.match(r.text, /2026-09-02/);
 });
-test("a GM asking about the group is answered for their store only", async () => {
+test("a GM asking about the group is stopped by the guard, not the planner", async () => {
   const r = await answer("gm.kia@ridgeline.example", "units by store last 7 days", { mock: true, catalogPath: CAT });
   assert.equal(r.outcome, "safety_block"); // the mock planner deliberately writes all four stores; the guard stops it
   if (r.outcome === "safety_block") assert.match(r.text, /CR1|outside your access/);

@@ -12,7 +12,7 @@ export default function EnrollForm({ email }: { email: string }) {
           <input type="hidden" name="email" value={state.email ?? email} />
           <p><b>{state.email}</b>: scan this with your authenticator app, then type the code it shows.</p>
           <img src={state.qr} alt="QR code for your authenticator app" width={220} height={220} />
-          <p className="sub" style={{ fontSize: ".85rem", color: "var(--muted)" }}>Cannot scan? Enter this key by hand: <code>{state.secret}</code></p>
+          <details style={{ fontSize: ".85rem", color: "var(--muted)" }}><summary>Cannot scan the code?</summary><p className="sub" style={{ fontSize: ".85rem", color: "var(--muted)", marginTop: ".4rem" }}>Enter this key by hand: <code>{state.secret}</code><br />Treat it like a password: anyone who has it can generate your six-digit codes. Do not screenshot this.</p></details>
           <label>Code from the app<input id="code" name="code" inputMode="numeric" required /></label>
           <button type="submit" disabled={pending}>Confirm</button>
         </>

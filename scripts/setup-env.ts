@@ -10,7 +10,7 @@ import readline from "node:readline";
 type Field = { name: string; secret: boolean; help: string; check?: (v: string) => string | null; generate?: () => string };
 const FIELDS: Field[] = [
   { name: "DATABASE_URL", secret: true, help: "Vercel → your project → Storage → the Neon database → \".env.local\" tab → copy the DATABASE_URL value.\n  It starts with postgresql:// and is long.",
-    check: (v) => /^postgres(ql)?:\/\//.test(v) ? null : "That does not start with postgresql://. Copy the whole value, without the name or quotes." },
+    check: (v) => /^postgres(ql)?:\/\//.test(v) ? null : "That does not look like a Postgres connection string: it should start with postgresql:// (or postgres://). Copy the whole value, without the name or quotes." },
   { name: "ANTHROPIC_API_KEY", secret: true, help: "console.anthropic.com → API keys → Create key. Paste it here; never into a prompt or a chat.",
     check: (v) => v.startsWith("sk-ant-") ? null : "Anthropic keys start with sk-ant-. Check what you pasted." },
   { name: "AUTH_SECRET", secret: true, help: "A long random string that signs the sign-in cookie. Press Enter and the wizard makes one for you.", generate: () => randomBytes(32).toString("base64") },

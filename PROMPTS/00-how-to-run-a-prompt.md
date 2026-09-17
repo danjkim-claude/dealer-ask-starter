@@ -23,11 +23,17 @@ Everything today happens inside this one folder. Your own Claude setup, if you h
 If something goes wrong, paste the error back into the same conversation with the words "fix this and rerun the tests".
 That is the whole engineering loop: build, test, fix, until green.
 
+If your Vercel site is not up yet, run `npm run dev` in the app's terminal and open `http://localhost:3000` instead.
+Every **Check** that mentions "the live site" works the same way locally.
+
 ## Two things that are not Claude's job
 
 - **The five settings.** `npm run setup` is a plain program you run yourself in the app's terminal (the Views menu, or
   Control and the backtick key). What you type goes straight into `.env.local`, which Claude is blocked from reading.
   Never type a key into the chat.
+- **Your dev-server window.** Next.js prints the arguments of server actions to the terminal it runs in, so when you
+  enroll your phone the authenticator secret appears in that log. It is your own secret and it stays on your laptop,
+  but do not paste a dev-server log into a chat, a ticket, or a screenshot.
 - **Publishing.** Claude never runs a git command; this laptop may not have git at all, and it does not need it. You
   commit and push in GitHub Desktop, which is also how you can see exactly what changed before it goes live.
 - **Your own Claude setup.** If you already use Claude Code, your personal instructions still load, exactly as always.

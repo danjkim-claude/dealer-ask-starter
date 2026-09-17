@@ -39,7 +39,7 @@ const CASES: Case[] = [
   ["[REGRESSION GUARD] comment swallows injected LIMIT", "SELECT report_date FROM store_day WHERE store_code = 'CR2' -- trailing comment", "gm", true],
   ["[REGRESSION GUARD] denied column via function", "SELECT UPPER(customer_name) FROM store_day WHERE store_code = 'CR2'", "gm", false, /customer_name/],
   ["[REGRESSION GUARD] denied column in literal is fine", "SELECT 'phone' AS label, SUM(unit_count) FROM store_day WHERE store_code = 'CR2'", "gm", true],
-  ["disabled scope is refused before any rule", "SELECT SUM(unit_count) FROM store_day WHERE store_code = 'CR2'", "gm", true],
+  ["an ordinary GM query passes every rule", "SELECT SUM(unit_count) FROM store_day WHERE store_code = 'CR2'", "gm", true],
 ];
 
 for (const [name, sql, scopeKey, wantOk, reason] of CASES) {
